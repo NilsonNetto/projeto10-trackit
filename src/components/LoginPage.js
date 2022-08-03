@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { ThreeDots } from "react-loader-spinner"
 import styled from "styled-components"
 import Logo from '../assets/Logo.png'
 import { Login } from "../services/trackit"
@@ -8,9 +9,11 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false)
 
   function handleForm(e) {
     e.preventDefault();
+    setLoading(true)
 
     const body = {
       email,
@@ -19,9 +22,11 @@ export default function LoginPage() {
     Login(body)
       .then(res => {
         console.log(res.data)
+        setLoading(false)
       })
       .catch(res => {
         console.log(res.data)
+        setLoading(false)
         alert('Email ou senha incorretos')
       })
   }
@@ -30,9 +35,23 @@ export default function LoginPage() {
     <Wrapper>
       <img src={Logo} alt='logo' />
       <form onSubmit={(e) => handleForm(e)}>
-        <input type='email' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} required></input>
-        <input type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)} required></input>
-        <button>Entrar</button>
+        <input
+          type='email'
+          placeholder='email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          disabled={loading}
+        />
+        <input type='password'
+          placeholder='senha'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          disabled={loading}
+        />
+
+        <button>{loading ? <ThreeDots height={13} color='white' /> : 'Entrar'}</button>
       </form>
       <Link to='/cadastro'>Não tem uma conta? Cadastre-se!</Link>
     </Wrapper >
@@ -74,6 +93,10 @@ const Wrapper = styled.div`
 
  input::placeholder{
   color: #DBDBDB;
+ }
+
+ input:disabled{
+  background-color: #D4D4D4;
  }
 
  button{
