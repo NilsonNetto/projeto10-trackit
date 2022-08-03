@@ -1,16 +1,40 @@
 import { Link } from "react-router-dom"
+import { useState } from "react"
 import styled from "styled-components"
 import Logo from '../assets/Logo.png'
+import { SignUp } from '../services/trackit'
 
 export default function Register() {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
+  const [image, setImage] = useState('')
+
+  function handleForm(e) {
+    e.preventDefault();
+    const body = {
+      email,
+      name,
+      image,
+      password
+    }
+    console.log(body)
+    /* SignUp(body)
+      .then(alert('cadastrado com sucesso'))
+      .catch(alert('Erro no cadastro')) */;
+  }
+
   return (
     <Wrapper>
       <img src={Logo} alt='logo' />
-      <input type='email' placeholder='email'></input>
-      <input type='password' placeholder='senha'></input>
-      <input type='text' placeholder='nome'></input>
-      <input type='link' placeholder='foto'></input>
-      <button>Cadastrar</button>
+      <form onSubmit={(e) => handleForm(e)}>
+        <input type='email' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} required></input>
+        <input type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)} required></input>
+        <input type='text' placeholder='nome' value={name} onChange={(e) => setName(e.target.value)} required></input>
+        <input type='url' placeholder='foto' value={image} onChange={(e) => setImage(e.target.value)} required></input>
+        <button>Cadastrar</button>
+      </form>
       <Link to='/'>Já tem uma conta? Faça Login!</Link>
     </Wrapper >
   )
@@ -30,8 +54,16 @@ const Wrapper = styled.div`
   margin-bottom: 30px;
  }
 
- input{
+form{
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+}
+
+ input{
+  width: 100%;
   max-width: 400px;
   height: 45px;
   padding-left: 10px;
@@ -46,7 +78,7 @@ const Wrapper = styled.div`
  }
 
  button{
-  width: 80%;
+  width: 100%;
   max-width: 400px;
   height: 45px;
   display: flex;
