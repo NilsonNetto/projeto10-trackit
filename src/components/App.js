@@ -1,5 +1,5 @@
 import GlobalStyle from "../assets/globalStyle"
-import Login from "./Login"
+import LoginPage from "./LoginPage"
 import Register from "./Register"
 import Habits from "./Habits"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
@@ -10,7 +10,7 @@ export default function App() {
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={<LoginPage />} />
         <Route path='/cadastro' element={<Register />} />
         <Route path='/habitos' element={<Habits />} />
       </Routes>

@@ -1,34 +1,29 @@
-import { Link } from "react-router-dom"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import Logo from '../assets/Logo.png'
-import { SignUp } from '../services/trackit'
+import { Login } from "../services/trackit"
 
-export default function Register() {
+export default function LoginPage() {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const [image, setImage] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   function handleForm(e) {
     e.preventDefault();
+
     const body = {
       email,
-      name,
-      image,
       password
     }
-    console.log(body)
-    SignUp(body)
+    Login(body)
       .then(res => {
         console.log(res.data)
-        alert('cadastrado com sucesso')
       })
       .catch(res => {
         console.log(res.data)
-        alert('Erro no cadastro')
-      });
+        alert('Email ou senha incorretos')
+      })
   }
 
   return (
@@ -37,11 +32,9 @@ export default function Register() {
       <form onSubmit={(e) => handleForm(e)}>
         <input type='email' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} required></input>
         <input type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)} required></input>
-        <input type='text' placeholder='nome' value={name} onChange={(e) => setName(e.target.value)} required></input>
-        <input type='url' placeholder='foto' value={image} onChange={(e) => setImage(e.target.value)} required></input>
-        <button>Cadastrar</button>
+        <button>Entrar</button>
       </form>
-      <Link to='/'>Já tem uma conta? Faça Login!</Link>
+      <Link to='/cadastro'>Não tem uma conta? Cadastre-se!</Link>
     </Wrapper >
   )
 }
@@ -60,13 +53,13 @@ const Wrapper = styled.div`
   margin-bottom: 30px;
  }
 
-form{
+ form{
   width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; 
-}
+  align-items: center;
+ }
 
  input{
   width: 100%;
