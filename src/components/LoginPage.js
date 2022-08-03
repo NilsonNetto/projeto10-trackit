@@ -1,19 +1,22 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useContext } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { ThreeDots } from "react-loader-spinner"
 import styled from "styled-components"
 import Logo from '../assets/Logo.png'
 import { Login } from "../services/trackit"
+import UserContext from "../contexts/UserContext"
 
 export default function LoginPage() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const { setUserData } = useContext(UserContext)
+  const navigate = useNavigate();
 
   function handleForm(e) {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
 
     const body = {
       email,
@@ -21,13 +24,15 @@ export default function LoginPage() {
     }
     Login(body)
       .then(res => {
-        console.log(res.data)
-        setLoading(false)
+        console.log(res.data);
+        setUserData(res.data);
+        setLoading(false);
+        navigate('/hoje')
       })
       .catch(res => {
-        console.log(res.data)
-        setLoading(false)
-        alert('Email ou senha incorretos')
+        console.log(res.data);
+        setLoading(false);
+        alert('Email ou senha incorretos');
       })
   }
 
@@ -61,6 +66,7 @@ export default function LoginPage() {
 const Wrapper = styled.div`
  width: 100vw;
  height: 100vh;
+ background-color: white;
  display: flex;
  flex-direction: column;
  justify-content: center;

@@ -27,8 +27,8 @@ function ListHabits() {
   return promise;
 } */
 
-function HabitsToday() {
-  const promise = axios.get(`${URL}/habits/today`)
+function HabitsToday(config) {
+  const promise = axios.get(`${URL}/habits/today`, config)
   return promise;
 }
 

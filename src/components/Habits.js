@@ -24,13 +24,12 @@ export default function Habits() {
 }
 
 const Wrapper = styled.main`
-width: 100%;
-height: 100%;
-margin: 70px 0;
-padding: 0 20px;
-background-color: #F2F2F2;
-font-size: 18px;
-color: #666666 ;
+  height: 100%;
+  min-height: calc(100vh - 140px);
+  margin: 70px 0;
+  padding: 0 20px;
+  font-size: 18px;
+  color: #666666 ;
 
 h3{
   color: #126BA5;

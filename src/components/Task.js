@@ -1,13 +1,15 @@
 import styled from "styled-components"
 import { FaCheck } from "react-icons/fa"
 
-export default function Task() {
+export default function Task({ taskData }) {
+
+  const { name, done, currentSequence, highestSequence } = taskData;
   return (
     <TaskStyle>
       <TaskText>
-        <h4>Ler 1 capítulo do livro</h4>
-        <p>Sequência atual: 3 dias</p>
-        <p>Seu recorde: 5 dias</p>
+        <h4>{name}</h4>
+        <p>Sequência atual: {currentSequence} dias</p>
+        <p>Seu recorde: {highestSequence} dias</p>
       </TaskText>
       <TaskButton>
         <FaCheck />
