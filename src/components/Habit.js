@@ -1,5 +1,6 @@
 import styled from "styled-components"
-import trashIcon from '../assets/trashIcon.png'
+import { } from '../assets/trashIcon.png'
+import { FaTrashAlt } from 'react-icons/fa'
 
 
 export default function Habit() {
@@ -9,7 +10,7 @@ export default function Habit() {
     <HabitWrapper>
       <div>
         <span>Let 1 capítulo de livro</span>
-        <img src={trashIcon} alt='delete button' />
+        <FaTrashAlt />
       </div>
       <DayList>
         {weekdays.map((day, index) => <div key={index}>{day}</div>)}
