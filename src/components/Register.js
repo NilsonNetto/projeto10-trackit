@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import styled from "styled-components"
 import Logo from '../assets/Logo.png'
@@ -6,10 +6,11 @@ import { SignUp } from '../services/trackit'
 
 export default function Register() {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const [image, setImage] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [image, setImage] = useState('');
+  const navigate = useNavigate;
 
   function handleForm(e) {
     e.preventDefault();
@@ -24,6 +25,7 @@ export default function Register() {
       .then(res => {
         console.log(res.data)
         alert('cadastrado com sucesso')
+        navigate('/')
       })
       .catch(res => {
         console.log(res.data)

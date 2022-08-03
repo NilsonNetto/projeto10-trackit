@@ -1,11 +1,15 @@
+import { useContext } from "react";
 import styled from "styled-components";
 import profile from '../assets/profile.jpg'
+import UserContext from "../contexts/UserContext";
+
 
 export default function Header() {
+  const { userData } = useContext(UserContext);
   return (
     <HeaderStyled>
       <h1>TrackIt</h1>
-      <img src={profile} alt='profile' />
+      <img src={userData.image} alt='profile picture' />
     </HeaderStyled>
   )
 }

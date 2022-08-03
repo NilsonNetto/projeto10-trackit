@@ -1,10 +1,15 @@
+import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+
 export default function Footer() {
+
+  const navigate = useNavigate();
+
   return (
     <FooterStyle>
-      <h2>Hábitos</h2>
-      <h2>Histórico</h2>
+      <h2 onClick={() => navigate('/habitos')}>Hábitos</h2>
+      <h2 onClick={() => navigate('/historico')}>Histórico</h2>
     </FooterStyle>
   )
 }
@@ -24,5 +29,6 @@ const FooterStyle = styled.footer`
 h2{
   color: #52B6FF;
   font-size: 22px;
+  cursor: pointer;
 }
 `

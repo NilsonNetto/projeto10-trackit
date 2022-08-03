@@ -5,6 +5,8 @@ import Footer from "./Footer"
 import Header from "./Header"
 import Task from "./Task"
 import { HabitsToday } from "../services/trackit"
+import dayjs from "dayjs"
+import 'dayjs/locale/pt-br'
 
 export default function Today() {
 
@@ -36,7 +38,7 @@ export default function Today() {
       <Header />
       <TodayStyle>
         <TodayHeader>
-          <h2>Segunda, 17/01</h2>
+          <h2>{dayjs().locale('pt-br').format('dddd')}, {dayjs().format('DD/MM')}</h2>
           <p>Nenhum hábito concluido ainda</p>
         </TodayHeader>
 
