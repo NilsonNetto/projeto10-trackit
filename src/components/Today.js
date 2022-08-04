@@ -7,10 +7,12 @@ import Task from "./Task"
 import { HabitsToday } from "../services/trackit"
 import dayjs from "dayjs"
 import 'dayjs/locale/pt-br'
+import ProgressContext from "../contexts/ProgressContext"
 
 export default function Today() {
 
   const { userData } = useContext(UserContext);
+  const { setProgressData } = useContext(ProgressContext);
   const [tasksData, setTasksData] = useState([]);
   const [updateTasks, setUpdateTasks] = useState(false)
 
@@ -24,6 +26,7 @@ export default function Today() {
     HabitsToday(config)
       .then(res => {
         setTasksData(res.data)
+        updateProgress(res.data)
       })
       .catch(res => {
         console.log(res.data)
@@ -32,6 +35,11 @@ export default function Today() {
 
   }, [updateTasks])
 
+  function updateProgress(tasksData) {
+    let tasksDone = 0
+    tasksDone = (tasksData.filter(task => task.done)).length / tasksData.length
+    setProgressData(tasksDone);
+  }
 
   return (
     <>
