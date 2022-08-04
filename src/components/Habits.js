@@ -1,10 +1,14 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Footer from "./Footer";
 import Habit from "./Habit";
 import Header from "./Header";
-
+import Loading from "./Loading";
 
 export default function Habits() {
+
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <>
       <Header />

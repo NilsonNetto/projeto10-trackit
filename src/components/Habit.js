@@ -1,7 +1,7 @@
 import styled from "styled-components"
-import { } from '../assets/trashIcon.png'
 import { FaTrashAlt } from 'react-icons/fa'
-
+import Loading from "./Loading"
+import { useState } from "react"
 
 export default function Habit() {
   const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S',]
@@ -43,7 +43,7 @@ const HabitWrapper = styled.div`
   color: #666666;
  }
 
- img{
+ svg{
   width: 13px;
   height: 15px;
   position: absolute;

@@ -24,7 +24,6 @@ export default function LoginPage() {
     }
     Login(body)
       .then(res => {
-        console.log(res.data);
         setUserData(res.data);
         setLoading(false);
         navigate('/hoje')

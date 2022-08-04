@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import styled from "styled-components";
-import profile from '../assets/profile.jpg'
 import UserContext from "../contexts/UserContext";
 
 

@@ -8,6 +8,7 @@ import { HabitsToday } from "../services/trackit"
 import dayjs from "dayjs"
 import 'dayjs/locale/pt-br'
 import ProgressContext from "../contexts/ProgressContext"
+import Loading from "./Loading"
 
 export default function Today() {
 
@@ -15,6 +16,7 @@ export default function Today() {
   const { progressData, setProgressData } = useContext(ProgressContext);
   const [tasksData, setTasksData] = useState([]);
   const [updateTasks, setUpdateTasks] = useState(false)
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const config = {
@@ -27,6 +29,7 @@ export default function Today() {
       .then(res => {
         setTasksData(res.data)
         updateProgress(res.data)
+        setIsLoading(false)
       })
       .catch(res => {
         console.log(res.data)
@@ -42,21 +45,25 @@ export default function Today() {
   }
 
   return (
-    <>
-      <Header />
-      <TodayStyle>
-        <TodayHeader>
-          <h2>{dayjs().locale('pt-br').format('dddd')}, {dayjs().format('DD/MM')}</h2>
-          {progressData ? <p>{progressData.toFixed(0)}% dos hábitos concluídos</p> : <p>Nenhum hábito concluido ainda</p>}
-        </TodayHeader>
+    isLoading ? (
+      <Loading />
+    ) : (
+      <>
+        <Header />
+        <TodayStyle>
+          <TodayHeader>
+            <h2>{dayjs().locale('pt-br').format('dddd')}, {dayjs().format('DD/MM')}</h2>
+            {progressData ? <p>{progressData.toFixed(0)}% dos hábitos concluídos</p> : <p>Nenhum hábito concluido ainda</p>}
+          </TodayHeader>
 
-        {tasksData.length === 0 ? '' : (
-          tasksData.map(task => <Task key={task.id} taskData={task} updateTasks={updateTasks} setUpdateTasks={setUpdateTasks} />)
-        )}
+          {tasksData.length === 0 ? '' : (
+            tasksData.map(task => <Task key={task.id} taskData={task} updateTasks={updateTasks} setUpdateTasks={setUpdateTasks} />)
+          )}
 
-      </TodayStyle>
-      <Footer />
-    </>
+        </TodayStyle>
+        <Footer />
+      </>
+    )
   )
 }
 
