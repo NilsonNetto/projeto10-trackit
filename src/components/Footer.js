@@ -15,7 +15,7 @@ export default function Footer() {
       <FooterStyle>
         <h2 onClick={() => navigate('/habitos')}>Hábitos</h2>
         <ProgressBar onClick={() => navigate('/hoje')}>
-          <CircularProgressbar value={progressData} maxValue={1} text={'hoje'} styles={buildStyles({ pathTransitionDuration: 0.5 })} />
+          <CircularProgressbar value={progressData} text={'hoje'} styles={buildStyles({ pathTransitionDuration: 0.5 })} />
         </ProgressBar>
         <h2 onClick={() => navigate('/historico')}>Histórico</h2>
       </FooterStyle>

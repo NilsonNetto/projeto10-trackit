@@ -12,7 +12,7 @@ import ProgressContext from "../contexts/ProgressContext"
 export default function Today() {
 
   const { userData } = useContext(UserContext);
-  const { setProgressData } = useContext(ProgressContext);
+  const { progressData, setProgressData } = useContext(ProgressContext);
   const [tasksData, setTasksData] = useState([]);
   const [updateTasks, setUpdateTasks] = useState(false)
 
@@ -37,7 +37,7 @@ export default function Today() {
 
   function updateProgress(tasksData) {
     let tasksDone = 0
-    tasksDone = (tasksData.filter(task => task.done)).length / tasksData.length
+    tasksDone = ((tasksData.filter(task => task.done)).length / tasksData.length) * 100;
     setProgressData(tasksDone);
   }
 
@@ -47,7 +47,7 @@ export default function Today() {
       <TodayStyle>
         <TodayHeader>
           <h2>{dayjs().locale('pt-br').format('dddd')}, {dayjs().format('DD/MM')}</h2>
-          <p>Nenhum hábito concluido ainda</p>
+          {progressData ? <p>{progressData.toFixed(0)}% dos hábitos concluídos</p> : <p>Nenhum hábito concluido ainda</p>}
         </TodayHeader>
 
         {tasksData.length === 0 ? '' : (
@@ -79,7 +79,7 @@ h2{
 }
 
 p{
-  color: #BABABA;
+  color: ${props => props.progressData ? '#8FC549' : '#BABABA'};
   font-size: 18px;
 }
 
