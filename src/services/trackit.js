@@ -32,13 +32,13 @@ function HabitsToday(config) {
   return promise;
 }
 
-function HabitsDone(HabitId) {
-  const promise = axios.post(`${URL}/habits/${HabitId}/check`)
+function CheckHabit(HabitId, config) {
+  const promise = axios.post(`${URL}/habits/${HabitId}/check`, {}, config)
   return promise;
 }
 
-function HabitsNotDone(HabitId) {
-  const promise = axios.post(`${URL}/habits/${HabitId}/uncheck`)
+function UncheckHabit(HabitId, config) {
+  const promise = axios.post(`${URL}/habits/${HabitId}/uncheck`, {}, config)
   return promise;
 }
 
@@ -46,4 +46,4 @@ function HabitsHistory() {
   const promise = axios.get(`${URL}/habits/history/daily`)
   return promise;
 }
-export { SignUp, Login, CreateHabits, ListHabits, HabitsToday, HabitsDone, HabitsNotDone, HabitsHistory }
+export { SignUp, Login, CreateHabits, ListHabits, HabitsToday, CheckHabit, UncheckHabit, HabitsHistory }

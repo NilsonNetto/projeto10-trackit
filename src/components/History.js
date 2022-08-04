@@ -14,8 +14,7 @@ export default function History() {
 
 const HistoryStyle = styled.div`
   width: 100%;
-  height: 100%;
-  min-height: calc(100vh - 140px);
-  margin: 70px 0;
+  min-height: calc(100vh - 180px);
+  margin-top: 70px;
 
 `

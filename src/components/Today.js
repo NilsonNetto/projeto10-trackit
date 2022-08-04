@@ -12,6 +12,7 @@ export default function Today() {
 
   const { userData } = useContext(UserContext);
   const [tasksData, setTasksData] = useState([]);
+  const [updateTasks, setUpdateTasks] = useState(false)
 
   useEffect(() => {
     const config = {
@@ -22,7 +23,6 @@ export default function Today() {
 
     HabitsToday(config)
       .then(res => {
-        console.log(res.data)
         setTasksData(res.data)
       })
       .catch(res => {
@@ -30,7 +30,7 @@ export default function Today() {
         alert('Erro')
       })
 
-  }, [])
+  }, [updateTasks])
 
 
   return (
@@ -43,7 +43,7 @@ export default function Today() {
         </TodayHeader>
 
         {tasksData.length === 0 ? '' : (
-          tasksData.map(task => <Task key={task.id} taskData={task} />)
+          tasksData.map(task => <Task key={task.id} taskData={task} updateTasks={updateTasks} setUpdateTasks={setUpdateTasks} />)
         )}
 
       </TodayStyle>
@@ -53,12 +53,11 @@ export default function Today() {
 }
 
 const TodayStyle = styled.div`
-      width: 100%;
-      height: 100%;
-      min-height: calc(100vh - 140px);
-      margin: 70px 0;
-      padding: 30px 20px 0 20px;
-      `
+  width: 100%;
+  min-height: calc(100vh - 180px);
+  margin-top: 70px;
+  padding: 30px 20px 0 20px;
+`
 
 const TodayHeader = styled.div`
   width: 100%;

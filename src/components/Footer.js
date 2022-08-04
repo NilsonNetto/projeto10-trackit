@@ -7,10 +7,13 @@ export default function Footer() {
   const navigate = useNavigate();
 
   return (
-    <FooterStyle>
-      <h2 onClick={() => navigate('/habitos')}>Hábitos</h2>
-      <h2 onClick={() => navigate('/historico')}>Histórico</h2>
-    </FooterStyle>
+    <>
+      <FooterStyle>
+        <h2 onClick={() => navigate('/habitos')}>Hábitos</h2>
+        <h2 onClick={() => navigate('/historico')}>Histórico</h2>
+      </FooterStyle>
+      <FooterMargin />
+    </>
   )
 }
 
@@ -31,4 +34,8 @@ h2{
   font-size: 22px;
   cursor: pointer;
 }
+`
+const FooterMargin = styled.div`
+width: 100vw;
+height: 110px;
 `

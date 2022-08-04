@@ -1,17 +1,49 @@
 import styled from "styled-components"
 import { FaCheck } from "react-icons/fa"
+import { CheckHabit, UncheckHabit } from "../services/trackit";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext";
 
-export default function Task({ taskData }) {
+export default function Task({ taskData, updateTasks, setUpdateTasks }) {
 
-  const { name, done, currentSequence, highestSequence } = taskData;
+  const { id, name, done, currentSequence, highestSequence } = taskData;
+  const { userData } = useContext(UserContext);
+
+  function toggleTask() {
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`
+      }
+    }
+
+    if (done) {
+      UncheckHabit(id, config)
+        .then(res => {
+          setUpdateTasks(!updateTasks)
+        })
+        .catch(res => {
+          alert('Error', id)
+        })
+    } else {
+      CheckHabit(id, config)
+        .then(res => {
+          setUpdateTasks(!updateTasks)
+        })
+        .catch(res => {
+          alert('Error', id)
+        })
+    }
+  }
+
   return (
-    <TaskStyle>
+    <TaskStyle >
       <TaskText>
         <h4>{name}</h4>
         <p>Sequência atual: {currentSequence} dias</p>
         <p>Seu recorde: {highestSequence} dias</p>
       </TaskText>
-      <TaskButton>
+      <TaskButton done={done} onClick={toggleTask}>
         <FaCheck />
       </TaskButton>
     </TaskStyle>
@@ -55,5 +87,6 @@ const TaskButton = styled.div`
   border-radius: 5px;
   font-size: 40px;
   color: white;
+  cursor: pointer;
 
 `

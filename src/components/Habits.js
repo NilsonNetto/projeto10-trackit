@@ -25,8 +25,8 @@ export default function Habits() {
 
 const Wrapper = styled.main`
   height: 100%;
-  min-height: calc(100vh - 140px);
-  margin: 70px 0;
+  min-height: calc(100vh - 180px);
+  margin-top: 70px;
   padding: 0 20px;
   font-size: 18px;
   color: #666666 ;
