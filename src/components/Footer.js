@@ -15,7 +15,18 @@ export default function Footer() {
       <FooterStyle>
         <h2 onClick={() => navigate('/habitos')}>Hábitos</h2>
         <ProgressBar onClick={() => navigate('/hoje')}>
-          <CircularProgressbar value={progressData} text={'hoje'} styles={buildStyles({ pathTransitionDuration: 0.5 })} />
+          <CircularProgressbar value={progressData} text={'Hoje'}
+            background
+            backgroundPadding={6}
+            strokeWidth={8}
+            styles={buildStyles(
+              {
+                pathTransitionDuration: 0.5,
+                backgroundColor: "#52B6FF",
+                textColor: "#FFFFFF",
+                pathColor: "#FFFFFF",
+                trailColor: "transparent"
+              })} />
         </ProgressBar>
         <h2 onClick={() => navigate('/historico')}>Histórico</h2>
       </FooterStyle>
@@ -49,7 +60,7 @@ height: 110px;
 const ProgressBar = styled.div`
 width: 90px;
 height: 90px;
-margin-bottom: 30px;
+margin-bottom: 35px;
 color: white;
 cursor: pointer;
 `
