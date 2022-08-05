@@ -3,6 +3,7 @@ import { useState } from "react"
 import styled from "styled-components"
 import Logo from '../assets/Logo.png'
 import { SignUp } from '../services/trackit'
+import { ThreeDots } from "react-loader-spinner"
 
 export default function Register() {
 
@@ -10,38 +11,60 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
-  const navigate = useNavigate;
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   function handleForm(e) {
     e.preventDefault();
+    setLoading(true);
     const body = {
       email,
       name,
       image,
       password
     }
-    console.log(body)
+
     SignUp(body)
       .then(res => {
-        console.log(res.data)
-        alert('cadastrado com sucesso')
-        navigate('/')
+        console.log(res.data);
+        alert('Cadastrado com sucesso');
+        navigate('/');
+        setLoading(false);
       })
       .catch(res => {
-        console.log(res.data)
-        alert('Erro no cadastro')
+        console.log(res.data);
+        alert('Erro no cadastro');
+        setLoading(false);
       });
   }
 
   return (
     <Wrapper>
       <img src={Logo} alt='logo' />
-      <form onSubmit={(e) => handleForm(e)}>
-        <input type='email' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} required></input>
-        <input type='password' placeholder='senha' value={password} onChange={(e) => setPassword(e.target.value)} required></input>
-        <input type='text' placeholder='nome' value={name} onChange={(e) => setName(e.target.value)} required></input>
-        <input type='url' placeholder='foto' value={image} onChange={(e) => setImage(e.target.value)} required></input>
-        <button>Cadastrar</button>
+      <form onSubmit={handleForm}>
+        <input type='email'
+          placeholder='email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          disabled={loading} />
+        <input type='password'
+          placeholder='senha'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          disabled={loading} />
+        <input type='text'
+          placeholder='nome'
+          value={name} onChange={(e) => setName(e.target.value)}
+          required
+          disabled={loading} />
+        <input type='url'
+          placeholder='foto'
+          value={image} onChange={(e) => setImage(e.target.value)}
+          required
+          disabled={loading} />
+        <button>{loading ? <ThreeDots height={13} color='white' /> : 'Cadastrar'}</button>
       </form>
       <Link to='/'>Já tem uma conta? Faça Login!</Link>
     </Wrapper >
@@ -84,6 +107,10 @@ form{
 
  input::placeholder{
   color: #DBDBDB;
+ }
+
+ input:disabled{
+  background-color: #F2F2F2;
  }
 
  button{

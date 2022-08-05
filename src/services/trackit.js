@@ -12,8 +12,8 @@ function Login(body) {
   return promise;
 }
 
-function CreateHabits(body) {
-  const promise = axios.post(`${URL}/habits`, body)
+function CreateHabits(body, config) {
+  const promise = axios.post(`${URL}/habits`, body, config)
   return promise;
 }
 

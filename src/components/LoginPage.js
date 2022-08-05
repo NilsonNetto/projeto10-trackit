@@ -101,7 +101,7 @@ const Wrapper = styled.div`
  }
 
  input:disabled{
-  background-color: #D4D4D4;
+  background-color: #F2F2F2;
  }
 
  button{

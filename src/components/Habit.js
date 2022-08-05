@@ -6,9 +6,8 @@ import { DeleteHabits } from "../services/trackit"
 import UserContext from "../contexts/UserContext"
 
 
-export default function Habit({ habitData, updateHabits, setUpdateHabits }) {
+export default function Habit({ habitData, updateHabits, setUpdateHabits, weekdays }) {
 
-  const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
   const { name, days, id } = habitData;
   const { userData } = useContext(UserContext);
   const selectedDays = weekdays.map((day, index) => days.includes(index) ? (
@@ -45,7 +44,7 @@ export default function Habit({ habitData, updateHabits, setUpdateHabits }) {
         <FaTrashAlt onClick={deleteHabit} />
       </HabitHeader>
       <DayList>
-        {selectedDays.map((day, index) => <Day key={index} selected={day.selected}>{day.day}</Day>)}
+        {selectedDays.map((day, index) => <HabitDay key={index} selected={day.selected}>{day.day}</HabitDay>)}
       </DayList>
     </HabitStyle>
   )
@@ -97,7 +96,7 @@ const DayList = styled.div`
   gap: 5px;
   margin-top: 5px;
 `
-const Day = styled.div`
+const HabitDay = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 5px;
