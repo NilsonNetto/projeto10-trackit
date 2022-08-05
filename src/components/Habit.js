@@ -8,46 +8,52 @@ import UserContext from "../contexts/UserContext"
 
 export default function Habit({ habitData, updateHabits, setUpdateHabits }) {
 
-  const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S',]
+  const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
   const { name, days, id } = habitData;
   const { userData } = useContext(UserContext);
+  const selectedDays = weekdays.map((day, index) => days.includes(index) ? (
+    { day, selected: true }
+  ) : (
+    { day, selected: false })
+  );
 
   function deleteHabit() {
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userData.token}`
+    const confirmation = window.confirm('Você deseja deletar este hábito?')
+    if (confirmation) {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userData.token}`
+        }
       }
+
+      DeleteHabits(id, config)
+        .then(res => {
+          console.log(res.data)
+          setUpdateHabits(!updateHabits)
+        })
+        .catch(res => {
+          console.log(res.data)
+          alert('Erro');
+        })
     }
-
-    DeleteHabits(id, config)
-      .then(res => {
-        console.log(res.data)
-        setUpdateHabits(!updateHabits)
-      })
-      .catch(res => {
-        console.log(res.data)
-        alert('Erro');
-      })
-
   }
 
   return (
-    <HabitWrapper>
-      <div>
+    <HabitStyle>
+      <HabitHeader>
         <span>{name}</span>
         <FaTrashAlt onClick={deleteHabit} />
-      </div>
+      </HabitHeader>
       <DayList>
-        {weekdays.map((day, index) => <div key={index}>{day}</div>)}
+        {selectedDays.map((day, index) => <Day key={index} selected={day.selected}>{day.day}</Day>)}
       </DayList>
-    </HabitWrapper>
+    </HabitStyle>
   )
 }
 
-const HabitWrapper = styled.div`
+const HabitStyle = styled.div`
   width: 100%;
-  height: 90px;
+  min-height: 90px;
   margin: 10px 0;
   padding: 15px;
   background-color: #FFFFFF;
@@ -57,44 +63,49 @@ const HabitWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
+`
 
- div{
+const HabitHeader = styled.div`
   width: 100%;
   display: flex;
   gap: 5px;
- } 
+  margin-bottom: 10px;
 
  span{
+  width: 95%;
   font-size: 20px;
   color: #666666;
  }
 
- svg{
-  width: 13px;
-  height: 15px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
- }
+svg{
+ width: 13px;
+ height: 15px;
+ color: #666666;
+ position: absolute;
+ top: 15px;
+ right: 15px;
+ cursor: pointer;
+}
 `
+
 const DayList = styled.div`
   width: 100%;
+  height: 30px;
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   gap: 5px;
-
-div{
+  margin-top: 5px;
+`
+const Day = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 5px;
   border: 1px solid #D4D4D4;
-  color: #DBDBDB;
+  color: ${(props) => (props.selected ? '#FFFFFF' : '#DBDBDB')};
   font-size: 20px;
-  background-color: white;
+  background-color: ${(props) => (props.selected ? '#CFCFCF' : '#FFFFFF')};
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-}
-
 `

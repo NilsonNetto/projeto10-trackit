@@ -53,7 +53,7 @@ export default function Task({ taskData, updateTasks, setUpdateTasks }) {
 const TaskStyle = styled.div`
   width: 100%;
   max-width: 500px;
-  height: 95px;
+  min-height: 95px;
   display: flex;
   flex-direction: flex;
   justify-content: space-between;
@@ -65,6 +65,7 @@ const TaskStyle = styled.div`
 `
 
 const TaskText = styled.div`
+  max-width: calc(100% - 80px);
   color: #666666;
   font-size: 20px;
 
@@ -78,12 +79,12 @@ p{
 
 `
 const TaskButton = styled.div`
+  width: 70px;
+  height: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: ${(props) => (props.done ? '#8FC549' : '#EBEBEB')};
-  width: 70px;
-  height: 70px;
   border-radius: 5px;
   font-size: 40px;
   color: white;
