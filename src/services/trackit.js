@@ -17,15 +17,15 @@ function CreateHabits(body) {
   return promise;
 }
 
-function ListHabits() {
-  const promise = axios.get(`${URL}/habits`)
+function ListHabits(config) {
+  const promise = axios.get(`${URL}/habits`, config)
   return promise;
 }
 
-/* function DeleteHabits() {
-  const promise = 
+function DeleteHabits(HabitId, config) {
+  const promise = axios.delete(`${URL}/habits/${HabitId}`, config)
   return promise;
-} */
+}
 
 function HabitsToday(config) {
   const promise = axios.get(`${URL}/habits/today`, config)
@@ -46,4 +46,4 @@ function HabitsHistory() {
   const promise = axios.get(`${URL}/habits/history/daily`)
   return promise;
 }
-export { SignUp, Login, CreateHabits, ListHabits, HabitsToday, CheckHabit, UncheckHabit, HabitsHistory }
+export { SignUp, Login, CreateHabits, ListHabits, DeleteHabits, HabitsToday, CheckHabit, UncheckHabit, HabitsHistory }

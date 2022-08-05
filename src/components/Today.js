@@ -68,7 +68,7 @@ export default function Today() {
 }
 
 const TodayStyle = styled.div`
-  width: 100%;
+  width: 100vw;
   min-height: calc(100vh - 180px);
   margin-top: 70px;
   padding: 30px 20px 0 20px;

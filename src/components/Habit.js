@@ -1,16 +1,42 @@
 import styled from "styled-components"
 import { FaTrashAlt } from 'react-icons/fa'
 import Loading from "./Loading"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { DeleteHabits } from "../services/trackit"
+import UserContext from "../contexts/UserContext"
 
-export default function Habit() {
+
+export default function Habit({ habitData, updateHabits, setUpdateHabits }) {
+
   const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S',]
+  const { name, days, id } = habitData;
+  const { userData } = useContext(UserContext);
+
+  function deleteHabit() {
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`
+      }
+    }
+
+    DeleteHabits(id, config)
+      .then(res => {
+        console.log(res.data)
+        setUpdateHabits(!updateHabits)
+      })
+      .catch(res => {
+        console.log(res.data)
+        alert('Erro');
+      })
+
+  }
 
   return (
     <HabitWrapper>
       <div>
-        <span>Let 1 capítulo de livro</span>
-        <FaTrashAlt />
+        <span>{name}</span>
+        <FaTrashAlt onClick={deleteHabit} />
       </div>
       <DayList>
         {weekdays.map((day, index) => <div key={index}>{day}</div>)}
