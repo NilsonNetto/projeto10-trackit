@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import Habit from "./Habit";
 import Header from "./Header";
 import Loading from "./Loading";
+import { weekdays } from "./weekdays"
 
 
 export default function Habits() {
@@ -18,7 +19,7 @@ export default function Habits() {
   const [updateHabits, setUpdateHabits] = useState(false);
   const [showNewHabit, setShowNewHabit] = useState(false);
   const [newHabitName, setNewHabitName] = useState('');
-  const weekdays = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+  const [selectedDays, setSelectedDays] = useState(weekdays);
 
   useEffect(() => {
     const config = {
@@ -48,16 +49,20 @@ export default function Habits() {
       }
     }
 
+    const APIDays = selectedDays.filter((day) => day.selected ? (day.id) : '')
+
     const body = {
       name: newHabitName,
-      days: [0, 1, 2, 3, 4, 5, 6]
+      days: APIDays.map((day) => day.id)
     }
 
+    console.log(body)
     CreateHabits(body, config)
       .then(res => {
         console.log(res.data);
         setUpdateHabits(!updateHabits);
         setNewHabitName('');
+        setSelectedDays(weekdays);
         setShowNewHabit(false);
         setNewHabitLoading(false);
       })
@@ -68,6 +73,15 @@ export default function Habits() {
       })
   }
 
+  function selectDay(selectedId, selected) {
+    console.log('entrou', selectedId)
+    setSelectedDays(weekdays.map((date, index) => index === selectedId && !selected ? (
+      { ...date, selected: true }
+    ) : (
+      { ...date, selected: false })
+    ));
+    console.log(selectedDays);
+  }
 
   return (
     isLoading ? (
@@ -87,7 +101,7 @@ export default function Habits() {
               disabled={newHabitLoading}
               onChange={(e) => setNewHabitName(e.target.value)} />
             <DayList>
-              {weekdays.map(day => <HabitDay>{day}</HabitDay>)}
+              {selectedDays.map((day) => <HabitDay key={day.id} selected={day.selected} onClick={() => selectDay(day.id, day.selected)}>{day.name}</HabitDay>)}
             </DayList>
             <SaveButton>
               <p onClick={() => setShowNewHabit(false)}>Cancelar</p>

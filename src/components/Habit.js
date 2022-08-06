@@ -11,9 +11,9 @@ export default function Habit({ habitData, updateHabits, setUpdateHabits, weekda
   const { name, days, id } = habitData;
   const { userData } = useContext(UserContext);
   const selectedDays = weekdays.map((day, index) => days.includes(index) ? (
-    { day, selected: true }
+    { ...day, selected: true }
   ) : (
-    { day, selected: false })
+    { ...day })
   );
 
   function deleteHabit() {
@@ -44,7 +44,7 @@ export default function Habit({ habitData, updateHabits, setUpdateHabits, weekda
         <FaTrashAlt onClick={deleteHabit} />
       </HabitHeader>
       <DayList>
-        {selectedDays.map((day, index) => <HabitDay key={index} selected={day.selected}>{day.day}</HabitDay>)}
+        {selectedDays.map((day, index) => <HabitDay key={index} selected={day.selected}>{day.name}</HabitDay>)}
       </DayList>
     </HabitStyle>
   )
