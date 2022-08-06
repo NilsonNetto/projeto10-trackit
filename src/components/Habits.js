@@ -49,7 +49,7 @@ export default function Habits() {
       }
     }
 
-    const APIDays = selectedDays.filter((day) => day.selected ? (day.id) : '')
+    const APIDays = selectedDays.filter((day) => day.selected ? (day) : '')
 
     const body = {
       name: newHabitName,
@@ -75,13 +75,14 @@ export default function Habits() {
 
   function selectDay(selectedId, selected) {
     console.log('entrou', selectedId)
-    setSelectedDays(weekdays.map((date, index) => index === selectedId && !selected ? (
-      { ...date, selected: true }
+    setSelectedDays(selectedDays.map((date, index) => index === selectedId ? (
+      { ...date, selected: !selected }
     ) : (
-      { ...date, selected: false })
+      { ...date })
     ));
-    console.log(selectedDays);
   }
+
+  console.log(selectedDays);
 
   return (
     isLoading ? (
