@@ -1,14 +1,32 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../contexts/UserContext";
+import { FaSignOutAlt } from "react-icons/fa"
 
 
 export default function Header() {
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  function changeAccount() {
+
+    const confirmation = window.confirm('Você deseja alterar o usuário?')
+    if (confirmation) {
+      setUserData(undefined);
+      navigate('/');
+    }
+  }
+
   return (
     <HeaderStyled>
       <h1>TrackIt</h1>
-      <img src={userData.image} alt='profile' />
+      <HeaderAccount>
+        <div>
+          <FaSignOutAlt onClick={changeAccount} />
+        </div>
+        <img src={userData.image} alt='profile' />
+      </HeaderAccount>
     </HeaderStyled>
   )
 }
@@ -30,6 +48,19 @@ const HeaderStyled = styled.header`
 h1{
   font-family: Playball;
   font-size: 40px;
+}
+`
+
+const HeaderAccount = styled.div`
+  width: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+div{
+font-size: 25px;
+line-height: 25px;
+cursor: pointer;
 }
 
 img{

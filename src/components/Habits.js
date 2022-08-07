@@ -151,6 +151,7 @@ button{
   width: 40px;
   height: 35px;
   font-size: 28px;
+  padding-bottom: 7px;
   color: white;
   background-color: #52B6FF;
   border: 1px solid #52B6FF;
