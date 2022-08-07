@@ -55,7 +55,7 @@ export default function LoginPage() {
           disabled={loading}
         />
 
-        <button>{loading ? <ThreeDots height={13} color='white' /> : 'Entrar'}</button>
+        <button disabled={loading}>{loading ? <ThreeDots height={13} color='white' /> : 'Entrar'}</button>
       </form>
       <Link to='/cadastro'>Não tem uma conta? Cadastre-se!</Link>
     </Wrapper >

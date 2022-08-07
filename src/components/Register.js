@@ -26,7 +26,6 @@ export default function Register() {
 
     SignUp(body)
       .then(res => {
-        console.log(res.data);
         alert('Cadastrado com sucesso');
         navigate('/');
         setLoading(false);
@@ -64,7 +63,7 @@ export default function Register() {
           value={image} onChange={(e) => setImage(e.target.value)}
           required
           disabled={loading} />
-        <button>{loading ? <ThreeDots height={13} color='white' /> : 'Cadastrar'}</button>
+        <button disabled={loading}>{loading ? <ThreeDots height={13} color='white' /> : 'Cadastrar'}</button>
       </form>
       <Link to='/'>Já tem uma conta? Faça Login!</Link>
     </Wrapper >

@@ -51,7 +51,7 @@ export default function Today() {
       <>
         <Header />
         <TodayStyle>
-          <TodayHeader>
+          <TodayHeader progressData={progressData}>
             <h2>{dayjs().locale('pt-br').format('dddd')}, {dayjs().format('DD/MM')}</h2>
             {progressData ? <p>{progressData.toFixed(0)}% dos hábitos concluídos</p> : <p>Nenhum hábito concluido ainda</p>}
           </TodayHeader>

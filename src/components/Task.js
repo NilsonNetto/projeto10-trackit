@@ -7,6 +7,7 @@ import UserContext from "../contexts/UserContext";
 export default function Task({ taskData, updateTasks, setUpdateTasks }) {
 
   const { id, name, done, currentSequence, highestSequence } = taskData;
+  const isHighest = currentSequence === highestSequence;
   const { userData } = useContext(UserContext);
 
   function toggleTask() {
@@ -40,10 +41,10 @@ export default function Task({ taskData, updateTasks, setUpdateTasks }) {
     <TaskStyle >
       <TaskText>
         <h4>{name}</h4>
-        <p>Sequência atual: {currentSequence} dias</p>
-        <p>Seu recorde: {highestSequence} dias</p>
+        <p>Sequência atual: <CurrentSequenceStyle isdone={done}>{currentSequence} dias</CurrentSequenceStyle></p>
+        <p>Seu recorde: <HighestSequenceStyle isHighest={isHighest} isdone={done}>{highestSequence} dias</HighestSequenceStyle></p>
       </TaskText>
-      <TaskButton done={done} onClick={toggleTask}>
+      <TaskButton isdone={done} onClick={toggleTask}>
         <FaCheck />
       </TaskButton>
     </TaskStyle>
@@ -74,9 +75,8 @@ h4{
 }
 
 p{
-  font-size: 12px;
+  font-size: 13px;
 }
-
 `
 const TaskButton = styled.div`
   width: 70px;
@@ -84,10 +84,17 @@ const TaskButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => (props.done ? '#8FC549' : '#EBEBEB')};
+  background-color: ${(props) => (props.isdone ? '#8FC549' : '#EBEBEB')};
   border-radius: 5px;
   font-size: 40px;
   color: white;
   cursor: pointer;
 
+`
+const CurrentSequenceStyle = styled.span`
+  color: ${(props) => (props.isdone ? '#8FC549' : '#666666')};
+`
+
+const HighestSequenceStyle = styled.span`
+  color: ${(props) => (props.isHighest && props.isdone ? '#8FC549' : '#666666')};
 `
