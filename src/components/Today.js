@@ -7,10 +7,18 @@ import Task from "./Task"
 import { HabitsToday } from "../services/trackit"
 import dayjs from "dayjs"
 import 'dayjs/locale/pt-br'
+import updateLocale from 'dayjs/plugin/updateLocale'
 import ProgressContext from "../contexts/ProgressContext"
 import Loading from "./Loading"
 
 export default function Today() {
+
+  dayjs.extend(updateLocale)
+  dayjs.updateLocale('pt-br', {
+    weekdays: [
+      "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado"
+    ]
+  })
 
   const { userData } = useContext(UserContext);
   const { progressData, setProgressData } = useContext(ProgressContext);
@@ -36,7 +44,7 @@ export default function Today() {
         alert('Erro')
       })
 
-  }, [updateTasks])
+  }, [updateTasks, userData.token])
 
   function updateProgress(tasksData) {
     let tasksDone = 0
@@ -52,7 +60,7 @@ export default function Today() {
         <Header />
         <TodayStyle>
           <TodayHeader progressData={progressData}>
-            <h2>{dayjs().locale('pt-br').format('dddd')}, {dayjs().format('DD/MM')}</h2>
+            <h2>{dayjs().locale('pt-br').format('dddd, DD/MM')}</h2>
             {progressData ? <p>{progressData.toFixed(0)}% dos hábitos concluídos</p> : <p>Nenhum hábito concluido ainda</p>}
           </TodayHeader>
 

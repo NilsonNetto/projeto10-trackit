@@ -1,15 +1,16 @@
 import styled from "styled-components"
 import { FaTrashAlt } from 'react-icons/fa'
-import Loading from "./Loading"
 import { useContext, useState } from "react"
 import { DeleteHabits } from "../services/trackit"
 import UserContext from "../contexts/UserContext"
+import { ThreeDots } from "react-loader-spinner"
 
 
 export default function Habit({ habitData, updateHabits, setUpdateHabits, weekdays }) {
 
   const { name, days, id } = habitData;
   const { userData } = useContext(UserContext);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const selectedDays = weekdays.map((day, index) => days.includes(index) ? (
     { ...day, selected: true }
   ) : (
@@ -18,6 +19,7 @@ export default function Habit({ habitData, updateHabits, setUpdateHabits, weekda
 
   function deleteHabit() {
     const confirmation = window.confirm('Você deseja deletar este hábito?')
+    setDeleteLoading(!deleteLoading)
     if (confirmation) {
       const config = {
         headers: {
@@ -27,25 +29,32 @@ export default function Habit({ habitData, updateHabits, setUpdateHabits, weekda
 
       DeleteHabits(id, config)
         .then(res => {
-          console.log(res.data)
           setUpdateHabits(!updateHabits)
+          setDeleteLoading(!deleteLoading)
         })
         .catch(res => {
           console.log(res.data)
           alert('Erro');
+          setDeleteLoading(!deleteLoading)
         })
     }
   }
 
   return (
     <HabitStyle>
-      <HabitHeader>
-        <span>{name}</span>
-        <FaTrashAlt onClick={deleteHabit} />
-      </HabitHeader>
-      <DayList>
-        {selectedDays.map((day, index) => <HabitDay key={index} selected={day.selected}>{day.name}</HabitDay>)}
-      </DayList>
+      {deleteLoading ? (
+        <ThreeDots height={15} color='#52B6FF' />
+      ) : (
+        <>
+          <HabitHeader>
+            <span>{name}</span>
+            <FaTrashAlt onClick={deleteHabit} />
+          </HabitHeader>
+          <DayList>
+            {selectedDays.map((day, index) => <HabitDay key={index} selected={day.selected}>{day.name}</HabitDay>)}
+          </DayList>
+        </>
+      )}
     </HabitStyle>
   )
 }

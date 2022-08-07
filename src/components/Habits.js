@@ -38,10 +38,10 @@ export default function Habits() {
         alert('Erro')
       })
 
-  }, [updateHabits])
+  }, [updateHabits, userData.token])
 
   function saveNewHabit() {
-    console.log('entrou novo habito');
+
     setNewHabitLoading(true);
     const config = {
       headers: {
@@ -56,33 +56,35 @@ export default function Habits() {
       days: APIDays.map((day) => day.id)
     }
 
-    console.log(body)
-    CreateHabits(body, config)
-      .then(res => {
-        console.log(res.data);
-        setUpdateHabits(!updateHabits);
-        setNewHabitName('');
-        setSelectedDays(weekdays);
-        setShowNewHabit(false);
-        setNewHabitLoading(false);
-      })
-      .catch(res => {
-        console.log(res.data);
-        alert('Erro');
-        setNewHabitLoading(false);
-      })
+    if (APIDays.length === 0) {
+      alert('Selecione pelo menos um dia');
+      setNewHabitLoading(false);
+      return;
+    } else {
+      CreateHabits(body, config)
+        .then(res => {
+          setUpdateHabits(!updateHabits);
+          setNewHabitName('');
+          setSelectedDays(weekdays);
+          setShowNewHabit(false);
+          setNewHabitLoading(false);
+        })
+        .catch(res => {
+          console.log(res.data);
+          alert('Erro ao cadastrar hábito');
+          setNewHabitLoading(false);
+        })
+    }
   }
 
   function selectDay(selectedId, selected) {
-    console.log('entrou', selectedId)
+
     setSelectedDays(selectedDays.map((date, index) => index === selectedId ? (
       { ...date, selected: !selected }
     ) : (
       { ...date })
     ));
   }
-
-  console.log(selectedDays);
 
   return (
     isLoading ? (
@@ -95,7 +97,7 @@ export default function Habits() {
             <h3>Meus hábitos</h3>
             <button onClick={() => setShowNewHabit(true)}>+</button>
           </HabitsHeader>
-          <NewHabitStyle show={showNewHabit} loading={newHabitLoading}>
+          <NewHabitStyle show={showNewHabit} isSaving={newHabitLoading}>
             <input type='text'
               placeholder='Nome do hábito'
               value={newHabitName}
@@ -169,7 +171,7 @@ const NewHabitStyle = styled.div`
   border-radius: 5px;
   position: relative;
   flex-direction: column;
-  pointer-events: ${props => props.loading ? 'none' : 'auto'};
+  pointer-events: ${props => props.isSaving ? 'none' : 'auto'};
 
 input{
   width: 100%;
