@@ -20,31 +20,40 @@ export default function Today() {
     ]
   })
 
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   const { progressData, setProgressData } = useContext(ProgressContext);
   const [tasksData, setTasksData] = useState([]);
   const [updateTasks, setUpdateTasks] = useState(false)
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userData.token}`
-      }
+    const savedLogin = localStorage.getItem('loginData')
+    const savedUserData = JSON.parse(savedLogin);
+    if (savedLogin !== null) {
+      setUserData(savedUserData);
     }
+  }, [])
 
-    HabitsToday(config)
-      .then(res => {
-        setTasksData(res.data)
-        updateProgress(res.data)
-        setIsLoading(false)
-      })
-      .catch(res => {
-        console.log(res.data)
-        alert('Erro')
-      })
+  useEffect(() => {
+    if (userData !== undefined) {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userData.token}`
+        }
+      }
 
-  }, [updateTasks, userData.token])
+      HabitsToday(config)
+        .then(res => {
+          setTasksData(res.data)
+          updateProgress(res.data)
+          setIsLoading(false)
+        })
+        .catch(res => {
+          console.log(res.data)
+          alert('Erro')
+        })
+    }
+  }, [updateTasks, userData])
 
   function updateProgress(tasksData) {
     let tasksDone = 0

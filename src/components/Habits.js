@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "../contexts/UserContext";
 import { CreateHabits, ListHabits } from "../services/trackit";
@@ -13,7 +12,7 @@ import { weekdays } from "./weekdays"
 
 export default function Habits() {
 
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [newHabitLoading, setNewHabitLoading] = useState(false);
   const [habitsList, setHabitsList] = useState([]);
@@ -21,12 +20,17 @@ export default function Habits() {
   const [showNewHabit, setShowNewHabit] = useState(false);
   const [newHabitName, setNewHabitName] = useState('');
   const [selectedDays, setSelectedDays] = useState(weekdays);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (userData === undefined) {
-      navigate('/');
-    } else {
+    const savedLogin = localStorage.getItem('loginData')
+    const savedUserData = JSON.parse(savedLogin);
+    if (savedLogin !== null) {
+      setUserData(savedUserData);
+    }
+  }, [])
+
+  useEffect(() => {
+    if (userData !== undefined) {
       const config = {
         headers: {
           Authorization: `Bearer ${userData.token}`
@@ -43,7 +47,7 @@ export default function Habits() {
           alert('Erro')
         })
     }
-  }, [updateHabits])
+  }, [updateHabits, userData])
 
   function saveNewHabit() {
 
