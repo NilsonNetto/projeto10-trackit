@@ -12,18 +12,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [keepLogged, setKeepLogged] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { setUserData } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const savedLogin = localStorage.getItem('loginData')
-  const savedUserData = JSON.parse(savedLogin);
-
   useEffect(() => {
+    const savedLogin = localStorage.getItem('loginData')
+    const savedUserData = JSON.parse(savedLogin);
     if (savedLogin !== null) {
       setUserData(savedUserData);
       navigate('/hoje');
     }
-  }, [savedLogin])
+  }, [])
 
 
   function handleForm(e) {
@@ -67,14 +67,22 @@ export default function LoginPage() {
           required
           disabled={loading}
         />
-        <input type='password'
+        <input type={showPassword ? 'text' : 'password'}
           placeholder='senha'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
           disabled={loading}
         />
-        <input type='checkbox' onChange={() => setKeepLogged(!keepLogged)} /> <label>Manter conectado</label>
+        <CheckboxWrapper>
+          <div onClick={() => setKeepLogged(!keepLogged)}>
+            <Checkbox>{keepLogged ? "X" : ''}</Checkbox>
+            <span>Manter conectado</span>
+          </div>
+          <div>
+            <span onClick={() => setShowPassword(!showPassword)}>Mostrar senha</span>
+          </div>
+        </CheckboxWrapper>
         <button disabled={loading}>{loading ? <ThreeDots height={13} color='white' /> : 'Entrar'}</button>
       </form>
       <Link to='/cadastro'>Não tem uma conta? Cadastre-se!</Link>
@@ -144,4 +152,35 @@ const Wrapper = styled.div`
   color: #52B6FF;
   font-size: 14px;
  }
+`
+const CheckboxWrapper = styled.div`
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+
+div{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+span{
+  font-size: 14px;
+  color: #666666;
+ }
+`
+
+const Checkbox = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 2px solid #52B6FF;
+  color: #52B6FF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
 `
