@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ThreeDots } from "react-loader-spinner"
 import styled from "styled-components"
@@ -11,8 +11,20 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setUserData } = useContext(UserContext)
+  const [keepLogged, setKeepLogged] = useState(false);
+  const { setUserData } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const savedLogin = localStorage.getItem('loginData')
+  const savedUserData = JSON.parse(savedLogin);
+
+  useEffect(() => {
+    if (savedLogin !== null) {
+      setUserData(savedUserData);
+      navigate('/hoje');
+    }
+  }, [savedLogin])
+
 
   function handleForm(e) {
     e.preventDefault();
@@ -25,6 +37,7 @@ export default function LoginPage() {
     Login(body)
       .then(res => {
         setUserData(res.data);
+        setLocalStorage(res.data);
         setLoading(false);
         navigate('/hoje')
       })
@@ -33,6 +46,13 @@ export default function LoginPage() {
         setLoading(false);
         alert('Email ou senha incorretos');
       })
+  }
+
+  function setLocalStorage(data) {
+    if (keepLogged) {
+      const stringedData = JSON.stringify(data);
+      localStorage.setItem('loginData', stringedData);
+    }
   }
 
   return (
@@ -54,7 +74,7 @@ export default function LoginPage() {
           required
           disabled={loading}
         />
-
+        <input type='checkbox' onChange={() => setKeepLogged(!keepLogged)} /> <label>Manter conectado</label>
         <button disabled={loading}>{loading ? <ThreeDots height={13} color='white' /> : 'Entrar'}</button>
       </form>
       <Link to='/cadastro'>Não tem uma conta? Cadastre-se!</Link>

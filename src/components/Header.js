@@ -14,6 +14,7 @@ export default function Header() {
     const confirmation = window.confirm('Você deseja alterar o usuário?')
     if (confirmation) {
       setUserData(undefined);
+      localStorage.removeItem('loginData');
       navigate('/');
     }
   }
