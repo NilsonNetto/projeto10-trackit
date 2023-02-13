@@ -1,9 +1,8 @@
 # TrackIt
 
-<p align="center">
-  <a href="https://github.com/NilsonNetto/projeto10-trackit">
-      <img src="./src/assets/trackit.gif" align="center" />
-  </a>
+
+https://user-images.githubusercontent.com/106768615/218459348-59f2630d-2fef-4fa4-8976-dbd169ad8cec.mp4
+
 
   <p align="center">
     <br />
@@ -16,7 +15,7 @@
 
 ## About
 
-TrackIt is an app to keep track of all your dailies activities.
+**TrackIt** is an app to keep track of all your dailies activities.
 
 ## Technologies
 
